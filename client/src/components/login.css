@@ -1,0 +1,10 @@
+/* src/components/login.css */
+
+.background {
+    background-image: url('../assets/background.jpg'); /* Đường dẫn tới ảnh nền */
+    background-size: cover; /* Hiển thị ảnh nền theo tỷ lệ */
+    background-position: center; /* Căn giữa ảnh nền */
+    width: 100%; /* Chiều rộng bằng 100% của phần tử cha */
+    height: 100%; /* Chiều cao bằng 100% của phần tử cha */
+  }
+  
