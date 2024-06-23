@@ -1,0 +1,250 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jun 22, 2024 at 08:17 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `schedule`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `schedules`
+--
+
+CREATE TABLE `schedules` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `schedules`
+--
+
+INSERT INTO `schedules` (`id`, `user_id`, `name`, `created_at`) VALUES
+(1, 1, 'Summer', '2024-06-21 04:15:12'),
+(2, 1, 'Spring', '2024-06-21 04:15:30'),
+(3, 1, 'Winter', '2024-06-21 04:15:57'),
+(4, 3, 'ManagementOfCoffee', '2024-06-21 04:16:58'),
+(5, 3, 'HouseWork', '2024-06-21 04:17:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `schedule_tasks`
+--
+
+CREATE TABLE `schedule_tasks` (
+  `id` int(11) NOT NULL,
+  `schedule_id` int(11) DEFAULT NULL,
+  `day_of_week` int(11) DEFAULT NULL,
+  `task_id` int(11) DEFAULT NULL,
+  `task_instance_id` int(11) DEFAULT NULL,
+  `time_start` time NOT NULL,
+  `time_end` time NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `schedule_tasks`
+--
+
+INSERT INTO `schedule_tasks` (`id`, `schedule_id`, `day_of_week`, `task_id`, `task_instance_id`, `time_start`, `time_end`, `created_at`) VALUES
+(1, 1, 1, 1, 1, '08:00:00', '08:15:00', '2024-06-22 15:05:35'),
+(2, 1, 1, 2, 1, '08:30:00', '09:00:00', '2024-06-22 15:05:35'),
+(3, 1, 1, 3, 1, '09:00:00', '10:00:00', '2024-06-22 15:05:35'),
+(4, 1, 1, 4, 1, '10:00:00', '12:00:00', '2024-06-22 15:05:35'),
+(5, 1, 1, 1, 2, '12:00:00', '14:00:00', '2024-06-22 15:05:35'),
+(6, 1, 2, 1, 1, '06:30:00', '07:30:00', '2024-06-22 15:05:35'),
+(7, 1, 2, 3, 1, '08:00:00', '09:00:00', '2024-06-22 15:05:35'),
+(8, 1, 2, 4, 1, '10:00:00', '12:00:00', '2024-06-22 15:05:35'),
+(9, 1, 3, 2, 1, '07:00:00', '08:00:00', '2024-06-22 15:05:35'),
+(10, 1, 3, 6, 1, '09:00:00', '12:00:00', '2024-06-22 15:05:35'),
+(11, 1, 4, 2, 1, '06:00:00', '08:00:00', '2024-06-22 15:05:35'),
+(12, 1, 4, 9, 1, '12:00:00', '16:00:00', '2024-06-22 15:05:35');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `name`, `description`, `created_at`) VALUES
+(1, 'Wash dishes', 'Wash all the dirty dishes in the sink', '2024-06-21 04:19:18'),
+(2, 'Vacuum the house', 'Vacuum all rooms and hallways', '2024-06-21 04:19:18'),
+(3, 'Laundry', 'Wash, dry, and fold clothes', '2024-06-21 04:19:19'),
+(4, 'Grocery shopping', 'Buy groceries for the week', '2024-06-21 04:19:19'),
+(5, 'Clean bathrooms', 'Clean and disinfect all bathrooms', '2024-06-21 04:19:19'),
+(6, 'Mow the lawn', 'Mow the front and back lawns', '2024-06-21 04:19:19'),
+(7, 'Take out trash', 'Take out the trash and recycling', '2024-06-21 04:19:19'),
+(8, 'Cook dinner', 'Prepare and cook dinner for the family', '2024-06-21 04:19:19'),
+(9, 'Dust furniture', 'Dust all furniture in the living room and bedrooms', '2024-06-21 04:19:19'),
+(10, 'Organize garage', 'Organize and clean the garage', '2024-06-21 04:19:19'),
+(11, 'Complete Math homework', 'Complete Math homework', '2024-06-21 04:20:11'),
+(12, 'Study for Biology exam', 'Study for Biology exam', '2024-06-21 04:20:11'),
+(13, 'Read Literature assignment', 'Read Literature assignment', '2024-06-21 04:20:11'),
+(14, 'Prepare Chemistry lab report', 'Prepare Chemistry lab report', '2024-06-21 04:20:11'),
+(15, 'Work on History project', 'Work on History project', '2024-06-21 04:20:11'),
+(16, 'Practice for Music class', 'Practice for Music class', '2024-06-21 04:20:11'),
+(17, 'Review Physics notes', 'Review Physics notes', '2024-06-21 04:20:11'),
+(18, 'Write essay for English class', 'Write essay for English class', '2024-06-21 04:20:11'),
+(19, 'Prepare for Geography presentation', 'Prepare for Geography presentation', '2024-06-21 04:20:11'),
+(20, 'Complete Computer Science coding assignment', 'Complete Computer Science coding assignment', '2024-06-21 04:20:11'),
+(21, 'Process orders at the cash register', 'Process orders at the cash register', '2024-06-21 04:20:11'),
+(22, 'Update the inventory system', 'Update the inventory system', '2024-06-21 04:20:11'),
+(23, 'Process online orders', 'Process online orders', '2024-06-21 04:20:11'),
+(24, 'Prepare coffee', 'Prepare coffee', '2024-06-21 04:20:11'),
+(25, 'Clean the coffee shop', 'Clean the coffee shop', '2024-06-21 04:20:11'),
+(26, 'Restock supplies', 'Restock supplies', '2024-06-21 04:20:11'),
+(27, 'Handle customer inquiries', 'Handle customer inquiries', '2024-06-21 04:20:12'),
+(28, 'Manage social media accounts', 'Manage social media accounts', '2024-06-21 04:20:12'),
+(29, 'Organize promotional events', 'Organize promotional events', '2024-06-21 04:20:12'),
+(30, 'Conduct training sessions for new employees', 'Conduct training sessions for new employees', '2024-06-21 04:20:12'),
+(31, 'Wake up', 'Wake up in the morning', '2024-06-21 04:21:08'),
+(32, 'Brush teeth', 'Brush teeth after waking up', '2024-06-21 04:21:08'),
+(33, 'Take a shower', 'Take a shower to start the day fresh', '2024-06-21 04:21:08'),
+(34, 'Have breakfast', 'Eat breakfast to fuel up for the day', '2024-06-21 04:21:08'),
+(35, 'Commute to work/school', 'Travel to work or school', '2024-06-21 04:21:08'),
+(36, 'Work/study', 'Complete tasks or study for the day', '2024-06-21 04:21:08'),
+(37, 'Lunch break', 'Take a break and have lunch', '2024-06-21 04:21:08'),
+(38, 'Exercise', 'Engage in physical activity or exercise', '2024-06-21 04:21:08'),
+(39, 'Dinner time', 'Eat dinner with family or friends', '2024-06-21 04:21:08'),
+(40, 'Relaxation time', 'Relax and unwind after a busy day', '2024-06-21 04:21:08'),
+(41, 'Prepare for bed', 'Get ready for bed and wind down', '2024-06-21 04:21:09'),
+(42, 'Go to sleep', 'Go to bed to rest for the next day', '2024-06-21 04:21:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `password` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `created_at`, `password`, `email`, `address`, `name`) VALUES
+(1, 'hoangtuan', '2024-06-21 04:01:23', '12345', 'nguyentuan01082003t@gmail.com', 'Ho Chi Minh city', 'Hoàng Tuấn'),
+(2, 'ngoctu', '2024-06-21 04:01:50', '12345', 'vungoctu3007t@gmail.com', 'Binh Duong city', 'Ngọc Tú'),
+(3, 'hoangtuannek', '2024-06-21 04:02:21', '12345', 'hoangtuan@gmail.com', 'Daklak', 'Hoàng Tuấn'),
+(4, 'lytruong', '2024-06-21 04:02:42', '12345', 'truongly@gmail.com', 'Daklak', 'Văn Trưởng');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `schedules`
+--
+ALTER TABLE `schedules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `schedule_tasks`
+--
+ALTER TABLE `schedule_tasks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `schedule_id` (`schedule_id`),
+  ADD KEY `task_id` (`task_id`);
+
+--
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `schedules`
+--
+ALTER TABLE `schedules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `schedule_tasks`
+--
+ALTER TABLE `schedule_tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `schedules`
+--
+ALTER TABLE `schedules`
+  ADD CONSTRAINT `schedules_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `schedule_tasks`
+--
+ALTER TABLE `schedule_tasks`
+  ADD CONSTRAINT `schedule_tasks_ibfk_1` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `schedule_tasks_ibfk_2` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
