@@ -8,7 +8,6 @@ import Dashboard from './components/Dashboard';
 import Schedule from './components/Schedule';
 import User from './components/User';
 import Task from './components/Task';
-
 function App() {
   return (
     <Router>

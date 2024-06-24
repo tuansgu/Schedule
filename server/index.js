@@ -82,3 +82,14 @@ app.get('/information', (req, res) => {
             res.send(`Hello, ${req.session.user.name}`);
         }
 })
+app.get('/getAllTask', (req, res) => {
+    const SQL = 'SELECT * FROM tasks';
+    db.query(SQL, (err, result) => {
+        if (err) {
+            res.send({ error: err });
+        } else {
+            console.log("Get All Task Successfully");
+            res.send(result); 
+        }
+    });
+});
