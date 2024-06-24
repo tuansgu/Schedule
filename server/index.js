@@ -46,7 +46,7 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     const sentUser = req.body.Username;
     const sentPassword = req.body.Password;
-    const SQL = 'SELECT name FROM users WHERE username = ? AND password = ?';
+    const SQL = 'SELECT * FROM users WHERE username = ? AND password = ?';
     const Values = [sentUser, sentPassword];
 
     db.query(SQL, Values, (err, results) => {
@@ -74,3 +74,11 @@ app.get('/home', (req, res) => {
         res.send({ loggedIn: false });
     }
 });
+
+app.get('/information', (req, res) => {
+    if(req.session.user)
+        {
+            console.log(req.session.user)
+            res.send(`Hello, ${req.session.user.name}`);
+        }
+})
