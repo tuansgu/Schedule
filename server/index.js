@@ -76,11 +76,10 @@ app.get('/home', (req, res) => {
 });
 
 app.get('/information', (req, res) => {
-    if(req.session.user)
-        {
-            console.log(req.session.user)
-            res.send(`Hello, ${req.session.user.name}`);
-        }
+    if (req.session.user) {
+        console.log(req.session.user)
+        res.send(`Hello, ${req.session.user.name}`);
+    }
 })
 app.get('/getAllTask', (req, res) => {
     const SQL = 'SELECT * FROM tasks';
@@ -89,7 +88,23 @@ app.get('/getAllTask', (req, res) => {
             res.send({ error: err });
         } else {
             console.log("Get All Task Successfully");
-            res.send(result); 
+            res.send(result);
+        }
+    });
+});
+
+app.get('/getTaskByKey', (req, res) => {
+    const key = req.query.Work;
+    const SQL = `SELECT * FROM tasks WHERE tasks.id LIKE ? OR tasks.name LIKE ? OR tasks.description LIKE ?`;
+    const searchKey = `%${key}%`;
+
+    db.query(SQL, [searchKey, searchKey, searchKey], (err, result) => {
+        if (err) {
+            res.send({ error: err });
+        } else {
+            console.log(result);
+            console.log("Get Task By Key Value Successfully");
+            res.send(result);
         }
     });
 });
