@@ -21,6 +21,7 @@ const Login = () => {
           navigateTo('/login');
         } else {
           localStorage.setItem('user', JSON.stringify(response.data.user));
+          alert("Log In Successfully")
           console.log('User data from localStorage:', response.data.user);
           navigateTo('/home');
         }

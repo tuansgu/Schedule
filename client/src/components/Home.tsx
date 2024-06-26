@@ -8,6 +8,7 @@ const Home = () => {
 
   useEffect(() => {
     const userString = localStorage.getItem('user');
+    console.log(typeof(userString))
     if (userString) {
       const user = JSON.parse(userString);
       setName(user.name);

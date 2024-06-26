@@ -54,10 +54,10 @@ app.post('/login', (req, res) => {
             res.send({ error: err });
         } else {
             console.log("Log In Successfully")
-            console.log(results[0])
             if (results.length > 0) {
 
                 req.session.user = results[0]; // Storing the user information in the session
+                console.log(req.session.user)
                 res.send({ message: "Login successful", user: results[0] });
             } else {
                 res.send({ message: "Invalid username or password" });
