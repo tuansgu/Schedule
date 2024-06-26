@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios'; // Không cần destructure Axios
+import { faPenToSquare, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 type Task = {
   id: number;
@@ -11,7 +11,17 @@ type Task = {
 const Schedule = () => {
   const [inputValue, setInputValue] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
-
+  const [draggedTask, setDraggedTask] = useState<Task | null>(null);
+  const [schedule, setSchedule] = useState<{ [key: string]: Task[] }>({
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+    Sunday: []
+  });
+  // create 7 array to contain data in day of week
   const getAllTask = () => {
     axios.get('http://localhost:3002/getAllTask')
       .then(response => {
@@ -22,6 +32,7 @@ const Schedule = () => {
         console.error("There was an error fetching the tasks!", error);
       });
   };
+  // get All task in database
 
   const getTaskSearch = (query: string) => {
     axios.get('http://localhost:3002/getTaskByKey', {
@@ -37,9 +48,10 @@ const Schedule = () => {
         console.error("There was an error fetching the tasks!", error);
       });
   };
+  // search task in database for each letter
 
   useEffect(() => {
-    getAllTask(); // Gọi hàm getAllTask khi component được mount
+    getAllTask();
   }, []);
 
   useEffect(() => {
@@ -55,6 +67,30 @@ const Schedule = () => {
       clearTimeout(handler);
     };
   }, [inputValue]);
+
+  const onDragStart = (task: Task) => {
+    setDraggedTask(task);
+  };
+
+  const onDrop = (day: string) => {
+    if (draggedTask) {
+      setSchedule((prevSchedule) => ({
+        ...prevSchedule,
+        [day]: [...prevSchedule[day], draggedTask],
+      }));
+      setDraggedTask(null);
+    }
+  };
+
+  const handleDeleteScheduledTask = (day: string, index: number) => {
+    setSchedule((prevSchedule) => {
+      const updatedDayTasks = prevSchedule[day].filter((_, taskIndex) => taskIndex !== index);
+      return {
+        ...prevSchedule,
+        [day]: updatedDayTasks,
+      };
+    });
+  };
 
   return (
     <>
@@ -98,10 +134,12 @@ const Schedule = () => {
               style={{ maxHeight: '70vh', overflowY: 'auto' }} // Thêm kiểu để tạo vùng cuộn
             >
               {tasks.length > 0 ? (
-                tasks.map(task => (
+                tasks.map((task, index) => (
                   <div
-                    key={task.id} className='task-item bg-light p-3 mb-3 rounded-2'
+                    key={task.id}
+                    className='task-item bg-light p-3 mb-3 rounded-2'
                     draggable='true'
+                    onDragStart={() => onDragStart(task)}
                   >
                     <FontAwesomeIcon icon={faPenToSquare} className='me-2' />
                     {task.name}
@@ -117,17 +155,39 @@ const Schedule = () => {
           <table className='table'>
             <thead>
               <tr>
-                <th className="p-3 fs-3">Monday</th>
-                <th className="p-3 fs-3">Tuesday</th>
-                <th className="p-3 fs-3">Wednesday</th>
-                <th className="p-3 fs-3">Thursday</th>
-                <th className="p-3 fs-3">Friday</th>
-                <th className="p-3 fs-3">Saturday</th>
-                <th className="p-3 fs-3">Sunday</th>
+                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
+                  <th key={day} className="p-3 fs-3">{day}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
-
+              <tr>
+                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => (
+                  <td
+                    key={day}
+                    className='p-3'
+                    onDrop={() => onDrop(day)}
+                    onDragOver={(e) => e.preventDefault()}
+                    style={{ minHeight: '100px', border: '1px solid #ccc' }}
+                  >
+                    {schedule[day].map((task, index) => (
+                      <div key={task.id} className='bg-light p-2 mb-2 rounded-2'>
+                        {task.name}
+                        <FontAwesomeIcon
+                          icon={faEdit}
+                          className="btn ms-auto me-2"
+                        // onClick={() => handleEditTime(day, index)}
+                        />
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          className="btn"
+                          onClick={() => handleDeleteScheduledTask(day, index)}
+                        />
+                      </div>
+                    ))}
+                  </td>
+                ))}
+              </tr>
             </tbody>
           </table>
         </div>
